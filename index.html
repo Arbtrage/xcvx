@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Steps AI — Pricing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #F3F4F6;
+    --surface:  #FFFFFF;
+    --border:   #E5E7EB;
+    --text:     #0F172A;
+    --muted:    #6B7280;
+    --blue:     #2563EB;
+    --blue-lt:  #3B82F6;
+    --green:    #059669;
+    --green-lt: #10B981;
+    --purple:   #7C3AED;
+    --amber:    #D97706;
+    --white:    #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    opacity: .12;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px;
+    mix-blend-mode: soft-light;
+  }
+
+  /* ── GLOW ORBS ── */
+  .orb {
+    position: fixed; border-radius: 50%;
+    pointer-events: none; z-index: 0;
+    filter: blur(100px);
+  }
+  .orb-1 { width:600px;height:600px;top:-220px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(37,99,235,.12),transparent 70%); }
+  .orb-2 { width:400px;height:400px;bottom:10%;left:-10%;background:radial-gradient(circle,rgba(5,150,105,.08),transparent 70%); }
+  .orb-3 { width:400px;height:400px;top:30%;right:-10%;background:radial-gradient(circle,rgba(124,58,237,.08),transparent 70%); }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    background: rgba(255,255,255,.9);
+    backdrop-filter: blur(18px) saturate(1.3);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+  }
+  .nav-logo {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700; font-size: 18px; color: var(--text);
+    letter-spacing: -.02em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-logo-dot { width:8px;height:8px;border-radius:50%;background:var(--blue-lt); }
+  .nav-links { display:flex;align-items:center;gap:28px; }
+  .nav-links a { font-size:14px;color:var(--muted);text-decoration:none;transition:color .2s; }
+  .nav-links a:hover { color:var(--text); }
+  .nav-cta {
+    padding:8px 20px;border-radius:8px;border:none;cursor:pointer;
+    background:var(--blue);color:#fff;font-size:14px;font-weight:600;
+    font-family:'DM Sans',sans-serif; transition:all .2s;
+  }
+  .nav-cta:hover { background:var(--blue-lt);transform:translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 80px 24px 64px;
+  }
+  .hero-badge {
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.3);
+    border-radius:999px;padding:6px 16px;
+    font-size:12px;font-weight:600;color:#93C5FD;
+    letter-spacing:.05em;text-transform:uppercase;
+    margin-bottom:28px;
+  }
+  .hero-badge-dot { width:6px;height:6px;border-radius:50%;background:#60A5FA;animation:pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
+
+  h1 {
+    font-family:'DM Sans',sans-serif;
+    font-size:clamp(40px,7vw,72px);
+    font-weight:800;line-height:1.04;letter-spacing:-.04em;
+    color:var(--text);margin-bottom:22px;
+  }
+  h1 span {
+    background:linear-gradient(135deg,#60A5FA 0%,#818CF8 50%,#A78BFA 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero-sub {
+    font-size:18px;color:var(--muted);line-height:1.6;
+    max-width:500px;margin:0 auto 48px;
+  }
+
+  /* ── TOGGLE ── */
+  .toggle-wrap {
+    display:inline-flex;align-items:center;
+    background:rgba(255,255,255,.05);border:1px solid var(--border);
+    border-radius:999px;padding:4px;gap:0;
+  }
+  .toggle-btn {
+    padding:9px 24px;border-radius:999px;border:none;cursor:pointer;
+    font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;
+    transition:all .2s;
+    color:var(--muted);background:transparent;
+  }
+  .toggle-btn.active {
+    background:var(--white);color:#0A0F1E;
+  }
+  .toggle-save {
+    font-size:10px;font-weight:700;letter-spacing:.06em;
+    background:linear-gradient(135deg,var(--green),var(--green-lt));
+    color:#fff;border-radius:999px;padding:2px 8px;margin-left:4px;
+  }
+
+  /* ── PLANS GRID ── */
+  .plans {
+    position:relative;z-index:1;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    gap:16px;
+    max-width:1180px;margin:0 auto;
+    padding:56px 24px 40px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    border-radius:20px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    padding:28px;
+    display:flex;flex-direction:column;
+    position:relative;
+    transition:transform .25s, border-color .25s, box-shadow .25s;
+    cursor:default;
+  }
+  .card:hover {
+    transform:translateY(-4px);
+    box-shadow:0 18px 45px rgba(15,23,42,.10);
+  }
+  .card.popular {
+    border-color:rgba(37,99,235,.7);
+    background:linear-gradient(160deg,rgba(219,234,254,0.7) 0%,rgba(255,255,255,1) 55%);
+    box-shadow:0 0 0 1px rgba(37,99,235,.15), 0 20px 60px rgba(37,99,235,.18);
+  }
+  .card.popular:hover {
+    box-shadow:0 0 0 1px rgba(37,99,235,.3), 0 26px 72px rgba(37,99,235,.25);
+  }
+
+  .popular-badge {
+    position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+    white-space:nowrap;font-size:11px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:#fff;
+    background:linear-gradient(90deg,#1D4ED8,#3B82F6);
+    padding:5px 18px;border-radius:999px;
+    box-shadow:0 4px 16px rgba(37,99,235,.4);
+  }
+
+  .plan-chip {
+    display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;border-radius:999px;
+    padding:4px 12px;margin-bottom:14px;
+  }
+  .card-tagline {
+    font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:24px;
+  }
+
+  .price-row {
+    display:flex;align-items:baseline;gap:4px;margin-bottom:2px;
+  }
+  .price-currency { font-size:22px;font-weight:700;color:var(--muted);align-self:flex-start;margin-top:6px; }
+  .price-amount {
+    font-family:'Syne',sans-serif;
+    font-size:clamp(42px,6vw,52px);font-weight:800;letter-spacing:-.04em;
+    color:var(--text);line-height:1;
+    transition:all .3s;
+  }
+  .price-period { font-size:14px;color:var(--muted);margin-left:4px; }
+  .price-meta { font-size:12px;color:var(--muted);margin-bottom:16px; }
+
+  /* msg volume pill */
+  .vol-pill {
+    display:flex;align-items:center;justify-content:space-between;
+    background:rgba(249,250,251,.9);border:1px solid var(--border);
+    border-radius:10px;padding:10px 14px;margin-bottom:12px;
+  }
+  .vol-label { font-size:12px;color:var(--muted); }
+  .vol-val { font-size:14px;font-weight:600;color:var(--text);transition:all .3s; }
+
+  /* slider */
+  .slider-wrap { margin-bottom:22px; }
+  .slider-ticks {
+    display:flex;justify-content:space-between;
+    margin-bottom:8px;
+  }
+  .slider-tick { font-size:10px;color:var(--muted); }
+  input[type=range] {
+    -webkit-appearance:none;width:100%;height:4px;
+    border-radius:999px;outline:none;cursor:pointer;
+    background:#E5E7EB;
+  }
+  input[type=range].growth-range {
+    background:linear-gradient(to right, #2563EB var(--pct,0%), #E5E7EB var(--pct,0%));
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:#fff;border:3px solid #2563EB;cursor:pointer;
+    box-shadow:0 0 0 4px rgba(37,99,235,.2),0 2px 8px rgba(0,0,0,.4);
+    transition:box-shadow .15s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover {
+    box-shadow:0 0 0 6px rgba(37,99,235,.3),0 2px 8px rgba(0,0,0,.4);
+  }
+  .slider-hint {
+    text-align:center;font-size:11px;color:var(--muted);margin-top:8px;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+
+  /* CTA buttons */
+  .cta-btn {
+    width:100%;padding:13px;border-radius:12px;
+    font-size:15px;font-weight:600;cursor:pointer;
+    font-family:'DM Sans',sans-serif;
+    transition:all .2s;margin-bottom:22px;
+    letter-spacing:-.01em;
+  }
+  .cta-primary {
+    background:linear-gradient(135deg,#1D4ED8 0%,#3B82F6 100%);
+    border:none;color:#fff;
+    box-shadow:0 4px 20px rgba(37,99,235,.35);
+  }
+  .cta-primary:hover { transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,99,235,.5); }
+  .cta-outline {
+    background:transparent;color:var(--text);
+    border:1.5px solid var(--border);
+  }
+  .cta-outline:hover { border-color:#CBD5F5;background:#F9FAFB; }
+
+  /* feature list */
+  .feat-section-label {
+    font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:14px;padding-top:20px;
+    border-top:1px solid var(--border);
+  }
+  .feat-list { display:flex;flex-direction:column;gap:10px; }
+  .feat-item { display:flex;align-items:flex-start;gap:10px; }
+  .feat-icon { flex-shrink:0;margin-top:2px;width:16px;height:16px;display:flex;align-items:center;justify-content:center; }
+  .feat-text { font-size:13.5px;line-height:1.45;color:var(--text); }
+  .feat-text.soon { color:var(--muted); }
+  .soon-tag {
+    display:inline-block;margin-left:7px;font-size:9px;font-weight:700;
+    letter-spacing:.07em;text-transform:uppercase;
+    background:#EEF2FF;color:var(--muted);
+    border-radius:999px;padding:2px 7px;vertical-align:middle;
+  }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    position:relative;z-index:1;
+    max-width:1180px;margin:8px auto 0;
+    padding:0 24px 48px;
+  }
+  .stats-grid {
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:1px;
+    background:#E5E7EB;
+    border-radius:16px;overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .stat-cell {
+    background:#FFFFFF;
+    padding:28px 24px;text-align:center;
+  }
+  .stat-num {
+    font-family:'Syne',sans-serif;
+    font-size:38px;font-weight:800;letter-spacing:-.04em;
+    background:linear-gradient(135deg,#fff 30%,#93C5FD 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    margin-bottom:8px;
+  }
+  .stat-lbl { font-size:12.5px;color:var(--muted);line-height:1.4; }
+
+  /* ── FAQ ── */
+  .faq-section {
+    position:relative;z-index:1;
+    max-width:700px;margin:0 auto;
+    padding:72px 24px 80px;
+  }
+  .faq-title {
+    font-family:'DM Sans',sans-serif;
+    font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-.03em;
+    text-align:center;margin-bottom:40px;
+  }
+  .faq-list { display:flex;flex-direction:column;gap:2px; }
+  .faq-item {
+    border:1px solid var(--border);border-radius:12px;overflow:hidden;
+    transition:border-color .2s;
+  }
+  .faq-item.open { border-color:rgba(37,99,235,.35); }
+  .faq-q {
+    width:100%;text-align:left;padding:18px 20px;
+    background:transparent;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    font-family:'DM Sans',sans-serif;
+  }
+  .faq-q-text { font-size:15px;font-weight:500;color:var(--text); }
+  .faq-icon {
+    font-size:22px;line-height:1;color:var(--muted);flex-shrink:0;
+    transition:transform .25s;
+  }
+  .faq-item.open .faq-icon { transform:rotate(45deg); }
+  .faq-a {
+    max-height:0;overflow:hidden;transition:max-height .3s ease, padding .3s;
+    font-size:14px;color:var(--muted);line-height:1.65;padding:0 20px;
+  }
+  .faq-item.open .faq-a { max-height:200px;padding:0 20px 20px; }
+
+  /* ── BOTTOM CTA ── */
+  .bottom-cta {
+    position:relative;z-index:1;
+    text-align:center;padding:64px 24px 100px;
+    border-top:1px solid var(--border);
+    background:radial-gradient(ellipse at 50% 0%,rgba(37,99,235,.08) 0%,transparent 65%);
+  }
+  .bottom-cta h2 {
+    font-family:'DM Sans',sans-serif;
+    font-size:clamp(28px,5vw,48px);font-weight:800;letter-spacing:-.04em;
+    margin-bottom:16px;
+  }
+  .bottom-cta p { font-size:17px;color:var(--muted);max-width:440px;margin:0 auto 40px;line-height:1.6; }
+  .cta-row { display:flex;gap:12px;justify-content:center;flex-wrap:wrap; }
+  .btn-lg {
+    padding:15px 36px;border-radius:12px;
+    font-size:16px;font-weight:600;cursor:pointer;
+    font-family:'DM Sans',sans-serif;transition:all .2s;
+  }
+  .btn-primary-lg {
+    background:linear-gradient(135deg,#1D4ED8,#3B82F6);
+    border:none;color:#fff;
+    box-shadow:0 4px 24px rgba(37,99,235,.4);
+  }
+  .btn-primary-lg:hover { transform:translateY(-2px);box-shadow:0 8px 32px rgba(37,99,235,.55); }
+  .btn-ghost-lg {
+    background:transparent;color:var(--text);
+    border:1.5px solid var(--border);
+  }
+  .btn-ghost-lg:hover { border-color:#CBD5F5;background:#F9FAFB; }
+
+  /* ── ENTERPRISE CARD ── */
+  .enterprise-card {
+    max-width:1180px;margin:0 auto;padding:0 24px 24px;
+    position:relative;z-index:1;
+  }
+  .ent-inner {
+    border:1px solid var(--border);border-radius:20px;
+    padding:36px 40px;
+    background:linear-gradient(135deg,rgba(221,214,254,.7) 0%,rgba(255,255,255,1) 55%);
+    display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;
+  }
+  .ent-left { flex:1;min-width:260px; }
+  .ent-left h3 {
+    font-family:'DM Sans',sans-serif;
+    font-size:26px;font-weight:800;letter-spacing:-.03em;margin-bottom:10px;
+  }
+  .ent-left p { font-size:14px;color:var(--muted);line-height:1.6;max-width:400px; }
+  .ent-feats {
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:8px 32px;flex:1;min-width:260px;
+  }
+  .ent-feat-item { display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted); }
+  .ent-btn-wrap { display:flex;gap:12px;flex-shrink:0;align-items:center; }
+
+  @media(max-width:768px) {
+    nav { padding:0 20px; }
+    .nav-links { display:none; }
+    .plans { grid-template-columns:1fr; }
+    .stats-grid { grid-template-columns:repeat(2,1fr); }
+    .ent-inner { flex-direction:column; }
+    h1 { font-size:36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    Steps AI
+  </div>
+  <div class="nav-links">
+    <a href="#">Product</a>
+    <a href="#">Integrations</a>
+    <a href="#">Docs</a>
+    <a href="#">Blog</a>
+  </div>
+  <button class="nav-cta">Start free trial</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    Simple, usage‑based pricing
+  </div>
+  <h1>Turn conversations<br><span>into predictable revenue.</span></h1>
+  <p class="hero-sub">Skip seat licenses and complex tiers. Your AI agent answers questions, recommends products, and recovers carts around the clock.</p>
+
+  <div class="toggle-wrap">
+    <button class="toggle-btn active" id="btn-monthly" onclick="setAnnual(false)">Monthly</button>
+    <button class="toggle-btn" id="btn-annual" onclick="setAnnual(true)">
+      Annual <span class="toggle-save">Save 25%</span>
+    </button>
+  </div>
+</div>
+
+<!-- PLANS GRID -->
+<div class="plans" id="plans-grid">
+
+  <!-- STARTER -->
+  <div class="card" id="card-starter">
+    <div class="plan-chip" style="color:#059669;background:rgba(5,150,105,.12);border:1px solid rgba(5,150,105,.25);">Starter</div>
+    <p class="card-tagline">For new and growing stores that want on-brand AI support and sales from day one.</p>
+    <div class="price-row">
+      <span class="price-currency">₹</span>
+      <span class="price-amount" id="price-starter">2,500</span>
+      <span class="price-period">/mo</span>
+    </div>
+    <p class="price-meta" id="meta-starter">₹2.50 per AI message · includes up to 1,000 messages every month</p>
+    <div class="vol-pill">
+      <span class="vol-label">AI messages/month</span>
+      <span class="vol-val">1,000</span>
+    </div>
+    <button class="cta-btn cta-outline">Start free trial →</button>
+    <p class="feat-section-label">What's included</p>
+    <div class="feat-list">
+      <div class="feat-item"><div class="feat-icon"><?xml version="1.0"?><!-- check --><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(5,150,105,.15)" stroke="rgba(5,150,105,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">AI chatbot trained on your store content</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(5,150,105,.15)" stroke="rgba(5,150,105,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Product recommendations + add-to-cart</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(5,150,105,.15)" stroke="rgba(5,150,105,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Instant order tracking in chat</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(5,150,105,.15)" stroke="rgba(5,150,105,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Lead capture forms</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(5,150,105,.15)" stroke="rgba(5,150,105,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Website chat widget + AI embeds</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(5,150,105,.15)" stroke="rgba(5,150,105,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Shopify &amp; WooCommerce</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(5,150,105,.15)" stroke="rgba(5,150,105,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Core analytics + geotracking + CSV</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(5,150,105,.15)" stroke="rgba(5,150,105,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#10B981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Chat inbox + human takeover</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/><circle cx="8" cy="8" r="4" stroke="rgba(107,123,153,.6)" stroke-width="1.1" fill="none"/><path d="M8 5.5v2.5l1.5 1.5" stroke="rgba(107,123,153,.7)" stroke-width="1" stroke-linecap="round"/></svg></div><span class="feat-text soon">Auto-apply discount codes<span class="soon-tag">Soon</span></span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/><circle cx="8" cy="8" r="4" stroke="rgba(107,123,153,.6)" stroke-width="1.1" fill="none"/><path d="M8 5.5v2.5l1.5 1.5" stroke="rgba(107,123,153,.7)" stroke-width="1" stroke-linecap="round"/></svg></div><span class="feat-text soon">Product FAQs (auto-generated)<span class="soon-tag">Soon</span></span></div>
+    </div>
+  </div>
+
+  <!-- GROWTH (with slider) -->
+  <div class="card popular" id="card-growth">
+    <div class="popular-badge">✦ Most Popular</div>
+    <div class="plan-chip" style="color:#60A5FA;background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);">Growth</div>
+    <p class="card-tagline">End‑to‑end ecommerce AI with higher volumes, proactive selling, and clear revenue attribution.</p>
+
+    <div class="price-row">
+      <span class="price-currency">₹</span>
+      <span class="price-amount" id="price-growth">6,000</span>
+      <span class="price-period">/mo</span>
+    </div>
+    <p class="price-meta" id="meta-growth">₹2.00 per AI message · flexible volume based on your traffic</p>
+
+    <div class="vol-pill">
+      <span class="vol-label">AI messages/month</span>
+      <span class="vol-val" id="growth-vol-val">3,000</span>
+    </div>
+
+    <!-- SLIDER -->
+    <div class="slider-wrap">
+      <div class="slider-ticks">
+        <span class="slider-tick">3K</span>
+        <span class="slider-tick">6K</span>
+        <span class="slider-tick">10K</span>
+        <span class="slider-tick">15K</span>
+        <span class="slider-tick">20K</span>
+        <span class="slider-tick">30K</span>
+      </div>
+      <input type="range" class="growth-range" id="growth-slider"
+        min="0" max="5" step="1" value="0"
+        oninput="updateGrowth(this.value)"
+        style="--pct:0%"
+      />
+      <div class="slider-hint">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6l5 5 5-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/></svg>
+        Drag to match your monthly volume
+      </div>
+    </div>
+
+    <button class="cta-btn cta-primary" id="growth-cta">Start free trial →</button>
+
+    <p class="feat-section-label">Everything in Starter, plus</p>
+    <div class="feat-list">
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(37,99,235,.15)" stroke="rgba(37,99,235,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Full custom persona &amp; tonality</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(37,99,235,.15)" stroke="rgba(37,99,235,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Remove "Powered by" branding</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(37,99,235,.15)" stroke="rgba(37,99,235,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">HubSpot, Zendesk, Airtable, Notion</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(37,99,235,.15)" stroke="rgba(37,99,235,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#60A5FA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Live product + stock availability</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/><circle cx="8" cy="8" r="4" stroke="rgba(107,123,153,.6)" stroke-width="1.1" fill="none"/><path d="M8 5.5v2.5l1.5 1.5" stroke="rgba(107,123,153,.7)" stroke-width="1" stroke-linecap="round"/></svg></div><span class="feat-text soon">Omnichannel: WhatsApp, Instagram, Messenger<span class="soon-tag">Soon</span></span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/><circle cx="8" cy="8" r="4" stroke="rgba(107,123,153,.6)" stroke-width="1.1" fill="none"/><path d="M8 5.5v2.5l1.5 1.5" stroke="rgba(107,123,153,.7)" stroke-width="1" stroke-linecap="round"/></svg></div><span class="feat-text soon">Human handoff with full context<span class="soon-tag">Soon</span></span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/><circle cx="8" cy="8" r="4" stroke="rgba(107,123,153,.6)" stroke-width="1.1" fill="none"/><path d="M8 5.5v2.5l1.5 1.5" stroke="rgba(107,123,153,.7)" stroke-width="1" stroke-linecap="round"/></svg></div><span class="feat-text soon">Cart abandonment recovery<span class="soon-tag">Soon</span></span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/><circle cx="8" cy="8" r="4" stroke="rgba(107,123,153,.6)" stroke-width="1.1" fill="none"/><path d="M8 5.5v2.5l1.5 1.5" stroke="rgba(107,123,153,.7)" stroke-width="1" stroke-linecap="round"/></svg></div><span class="feat-text soon">Advanced analytics &amp; revenue attribution<span class="soon-tag">Soon</span></span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/><circle cx="8" cy="8" r="4" stroke="rgba(107,123,153,.6)" stroke-width="1.1" fill="none"/><path d="M8 5.5v2.5l1.5 1.5" stroke="rgba(107,123,153,.7)" stroke-width="1" stroke-linecap="round"/></svg></div><span class="feat-text soon">AI Nudges &amp; proactive messaging<span class="soon-tag">Soon</span></span></div>
+    </div>
+  </div>
+
+  <!-- SCALE -->
+  <div class="card" id="card-scale">
+    <div class="plan-chip" style="color:#A78BFA;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.25);">Scale</div>
+    <p class="card-tagline">For agencies and multi‑store brands that need white‑label control, APIs, and hands‑on support.</p>
+    <div class="price-row">
+      <span class="price-currency">₹</span>
+      <span class="price-amount" id="price-scale">18,000</span>
+      <span class="price-period">/mo</span>
+    </div>
+    <p class="price-meta" id="meta-scale">₹1.80 per AI message · includes up to 10,000 messages every month</p>
+    <div class="vol-pill">
+      <span class="vol-label">AI messages/month</span>
+      <span class="vol-val">10,000</span>
+    </div>
+    <button class="cta-btn cta-outline">Talk to sales →</button>
+    <p class="feat-section-label">Everything in Growth, plus</p>
+    <div class="feat-list">
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">White-label platform (your brand)</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Full API access</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Multi-store management</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="feat-text">Priority Slack &amp; call support</span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/><circle cx="8" cy="8" r="4" stroke="rgba(107,123,153,.6)" stroke-width="1.1" fill="none"/><path d="M8 5.5v2.5l1.5 1.5" stroke="rgba(107,123,153,.7)" stroke-width="1" stroke-linecap="round"/></svg></div><span class="feat-text soon">Workflow builder (no-code)<span class="soon-tag">Soon</span></span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/><circle cx="8" cy="8" r="4" stroke="rgba(107,123,153,.6)" stroke-width="1.1" fill="none"/><path d="M8 5.5v2.5l1.5 1.5" stroke="rgba(107,123,153,.7)" stroke-width="1" stroke-linecap="round"/></svg></div><span class="feat-text soon">Agent Sites (agentic subdomains)<span class="soon-tag">Soon</span></span></div>
+      <div class="feat-item"><div class="feat-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/><circle cx="8" cy="8" r="4" stroke="rgba(107,123,153,.6)" stroke-width="1.1" fill="none"/><path d="M8 5.5v2.5l1.5 1.5" stroke="rgba(107,123,153,.7)" stroke-width="1" stroke-linecap="round"/></svg></div><span class="feat-text soon">Voice AI<span class="soon-tag">Soon</span></span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ENTERPRISE BANNER -->
+<div class="enterprise-card">
+  <div class="ent-inner">
+    <div class="ent-left">
+      <div class="plan-chip" style="color:#C4B5FD;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.25);display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:4px 12px;margin-bottom:14px;">Enterprise</div>
+      <h3>Enterprise‑grade AI,<br>tailored to your stack.</h3>
+      <p>Compliance, security, and performance for large teams — with SLAs, SSO/SAML, data residency, and a dedicated success squad.</p>
+    </div>
+    <div class="ent-feats">
+      <div class="ent-feat-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Unlimited messages</div>
+      <div class="ent-feat-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> SSO / SAML</div>
+      <div class="ent-feat-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Data residency options</div>
+      <div class="ent-feat-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Custom AI tuning</div>
+      <div class="ent-feat-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Dedicated account manager</div>
+      <div class="ent-feat-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Invoice &amp; PO billing</div>
+      <div class="ent-feat-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> SLA 99.9% uptime</div>
+      <div class="ent-feat-item"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" fill="rgba(124,58,237,.15)" stroke="rgba(124,58,237,.4)"/><path d="M5 8.2l2 2 4-4" stroke="#A78BFA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Quarterly business reviews</div>
+    </div>
+    <div class="ent-btn-wrap">
+      <button class="btn-lg btn-ghost-lg">Talk to sales</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-grid">
+    <div class="stat-cell"><div class="stat-num">+34%</div><div class="stat-lbl">Average lift in onsite conversion rate</div></div>
+    <div class="stat-cell"><div class="stat-num">−65%</div><div class="stat-lbl">Fewer support tickets for “Where is my order?”</div></div>
+    <div class="stat-cell"><div class="stat-num">67%</div><div class="stat-lbl">Customer queries resolved end‑to‑end by AI</div></div>
+    <div class="stat-cell"><div class="stat-num">+28%</div><div class="stat-lbl">Increase in average order value</div></div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+      <h2 class="faq-title">Questions about pricing</h2>
+  <div class="faq-list" id="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">What exactly counts as an AI message?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Every reply your AI agent sends to a customer — on your website, WhatsApp, Instagram, or any connected channel — is counted as one AI message. Messages sent by your human team do not count toward your quota.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Can I change my plan or message volume later?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Yes. You can upgrade at any time and downgrade at the end of your billing cycle. On Growth, the slider lets you adjust your included message volume so you only pay for what you actually need.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">What happens if I go over my monthly messages?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">We’ll notify you well before you hit your cap. You can add a one‑time top‑up or move to a higher tier so your agent never goes offline mid‑conversation.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Is there a free trial, and do I need a credit card?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Both Starter and Growth include a free trial. You don’t need a credit card to get started — connect your store, train the agent, and go live in under 10 minutes.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">What do you mean by “coming soon” features?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Features tagged “Soon” are already in active development. When they launch, they’ll be added to your existing plan at no additional cost — no surprise upgrades.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-q-text">Which platforms and tools can I connect?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">Steps AI connects to Shopify, WooCommerce, HubSpot, Zendesk, Airtable, Google Drive, Notion, Salesforce, Slack, Outlook, and Google Workspace — all with simple, no‑code setup.</div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="bottom-cta">
+  <h2>Launch your AI sales agent<br>in under 10 minutes.</h2>
+  <p>Connect your store, teach the agent about your brand, and go live. It handles support, answers product questions, and nudges shoppers to buy while you focus on strategy.</p>
+  <div class="cta-row">
+    <button class="btn-lg btn-primary-lg">Start free trial</button>
+    <button class="btn-lg btn-ghost-lg">Book a demo</button>
+  </div>
+</div>
+
+<script>
+  // ── DATA ──
+  const GROWTH_STEPS = [
+    { msgs: 3000,  label: "3K" },
+    { msgs: 6000,  label: "6K" },
+    { msgs: 10000, label: "10K" },
+    { msgs: 15000, label: "15K" },
+    { msgs: 20000, label: "20K" },
+    { msgs: 30000, label: "30K" },
+  ];
+  const RATE = 2.0; // ₹ per msg for Growth
+
+  let isAnnual = false;
+
+  function fmt(n) {
+    if (n >= 100000) return (n/100000).toFixed(n%100000===0?0:1) + "L";
+    if (n >= 1000)   return (n/1000).toFixed(n%1000===0?0:1) + "K";
+    return n.toString();
+  }
+
+  function fmtPrice(n) {
+    return Math.round(n).toLocaleString("en-IN");
+  }
+
+  function setAnnual(val) {
+    isAnnual = val;
+    document.getElementById("btn-monthly").classList.toggle("active", !val);
+    document.getElementById("btn-annual").classList.toggle("active", val);
+
+    const mult = val ? 0.75 : 1;
+
+    // Starter
+    document.getElementById("price-starter").textContent = fmtPrice(2500 * mult);
+
+    // Scale
+    document.getElementById("price-scale").textContent = fmtPrice(18000 * mult);
+
+    // Growth — re-run with current slider
+    updateGrowth(document.getElementById("growth-slider").value);
+  }
+
+  function updateGrowth(idx) {
+    idx = parseInt(idx);
+    const step = GROWTH_STEPS[idx];
+    const rawPrice = step.msgs * RATE;
+    const price = rawPrice * (isAnnual ? 0.75 : 1);
+    const pct = (idx / (GROWTH_STEPS.length - 1)) * 100;
+
+    // update slider fill
+    const slider = document.getElementById("growth-slider");
+    slider.style.setProperty("--pct", pct + "%");
+
+    // animate price
+    const priceEl = document.getElementById("price-growth");
+    priceEl.style.transform = "scale(1.06)";
+    priceEl.style.color = "#93C5FD";
+    priceEl.textContent = fmtPrice(price);
+    setTimeout(() => {
+      priceEl.style.transform = "scale(1)";
+      priceEl.style.color = "var(--white)";
+    }, 220);
+
+    // update vol pill
+    document.getElementById("growth-vol-val").textContent = fmt(step.msgs);
+
+    // update meta
+    document.getElementById("meta-growth").textContent =
+      `₹${RATE.toFixed(2)} per AI message · ${fmt(step.msgs)} msgs/mo`;
+
+    // update CTA to reflect volume
+    document.getElementById("growth-cta").textContent =
+      `Start free trial — ${fmt(step.msgs)} msgs/mo →`;
+  }
+
+  // ── FAQ ──
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains("open");
+    document.querySelectorAll(".faq-item.open").forEach(el => el.classList.remove("open"));
+    if (!isOpen) item.classList.add("open");
+  }
+
+  // ── ENTRANCE ANIMATION ──
+  document.querySelectorAll(".card").forEach((card, i) => {
+    card.style.opacity = "0";
+    card.style.transform = "translateY(24px)";
+    card.style.transition = `opacity .5s ${i * 0.1}s ease, transform .5s ${i * 0.1}s ease, box-shadow .25s, border-color .25s`;
+    setTimeout(() => {
+      card.style.opacity = "1";
+      card.style.transform = "translateY(0)";
+    }, 100 + i * 80);
+  });
+</script>
+</body>
+</html>
